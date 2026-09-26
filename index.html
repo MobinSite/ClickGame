@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CURSOR COINS</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Vazirmatn:wght@400;500;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:
+        radial-gradient(circle at 20% 20%, #172554 0%, transparent 30%),
+        radial-gradient(circle at 80% 80%, #3b0764 0%, transparent 30%),
+        #030712;
+    color:white;
+    font-family:"Orbitron","Vazirmatn",sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+button,input,select{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    padding:16px 25px;
+    background:rgba(3,7,18,.82);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:2px;
+    background:linear-gradient(90deg,#00eaff,#8b5cf6,#ff00c8);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.nav{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+}
+
+.nav button{
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.05);
+    color:#fff;
+    padding:10px 14px;
+    border-radius:12px;
+    transition:.2s;
+}
+
+.nav button:hover{
+    transform:translateY(-2px);
+    background:rgba(0,234,255,.12);
+    border-color:#00eaff;
+}
+
+.container{
+    width:min(1250px,94%);
+    margin:auto;
+    padding:30px 0 60px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.hero{
+    text-align:center;
+    padding:35px 10px;
+}
+
+.hero h1{
+    font-size:clamp(35px,6vw,75px);
+    font-weight:900;
+    letter-spacing:5px;
+    background:linear-gradient(90deg,#00eaff,#8b5cf6,#ff00c8);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.hero p{
+    margin-top:15px;
+    color:#94a3b8;
+}
+
+/* COINS */
+
+.coin-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:18px;
+}
+
+.coin-card{
+    position:relative;
+    overflow:hidden;
+    padding:22px;
+    border-radius:22px;
+    background:linear-gradient(
+        145deg,
+        rgba(255,255,255,.09),
+        rgba(255,255,255,.025)
+    );
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+
+.coin-card::before{
+    content:"";
+    position:absolute;
+    width:100px;
+    height:100px;
+    background:#00eaff;
+    filter:blur(60px);
+    opacity:.15;
+    right:-30px;
+    top:-30px;
+}
+
+.coin-icon{
+    font-size:45px;
+}
+
+.coin-name{
+    margin-top:10px;
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.coin-value{
+    font-size:27px;
+    font-weight:900;
+    margin-top:8px;
+}
+
+/* GAME */
+
+.game-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.level-box{
+    flex:1;
+    min-width:280px;
+    padding:18px 22px;
+    border-radius:20px;
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.level-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.level-number{
+    font-size:25px;
+    font-weight:900;
+    color:#00eaff;
+}
+
+.xp-text{
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.xp-bar{
+    height:14px;
+    background:#111827;
+    border-radius:50px;
+    overflow:hidden;
+}
+
+.xp-fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#00eaff,#8b5cf6,#ff00c8);
+    box-shadow:0 0 20px #00eaff;
+    transition:.3s;
+}
+
+.game-area{
+    min-height:650px;
+    border-radius:35px;
+    border:1px solid rgba(255,255,255,.1);
+    background:
+        radial-gradient(circle at center,rgba(0,234,255,.08),transparent 35%),
+        rgba(255,255,255,.025);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.game-info{
+    position:absolute;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    text-align:center;
+    color:#64748b;
+    font-size:12px;
+}
+
+.cursor{
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    user-select:none;
+    font-size:150px;
+    cursor:pointer;
+    background:
+        radial-gradient(circle at 35% 30%,#fff,#dbeafe 12%,#38bdf8 45%,#2563eb 70%,#111827 100%);
+    box-shadow:
+        0 0 30px #00eaff,
+        0 0 80px rgba(0,234,255,.55),
+        inset 0 0 30px rgba(255,255,255,.8);
+    border:8px solid rgba(255,255,255,.7);
+    transition:transform .08s;
+}
+
+.cursor:hover{
+    box-shadow:
+        0 0 45px #00eaff,
+        0 0 100px rgba(0,234,255,.65),
+        inset 0 0 30px rgba(255,255,255,.8);
+}
+
+.cursor:active{
+    transform:scale(.91);
+}
+
+/* FLOAT XP */
+
+.float-text{
+    position:absolute;
+    pointer-events:none;
+    font-weight:900;
+    animation:floatUp 1s forwards;
+    z-index:20;
+}
+
+@keyframes floatUp{
+    0%{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+    100%{
+        opacity:0;
+        transform:translateY(-100px) scale(1.25);
+    }
+}
+
+/* PANELS */
+
+.panel{
+    padding:25px;
+    border-radius:25px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 15px 50px rgba(0,0,0,.25);
+}
+
+.panel h2{
+    margin-bottom:20px;
+}
+
+.shop-grid,
+.upgrade-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:18px;
+}
+
+.item{
+    padding:22px;
+    border-radius:20px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.item h3{
+    margin-bottom:10px;
+}
+
+.item p{
+    color:#94a3b8;
+    font-size:13px;
+    line-height:1.7;
+    margin-bottom:15px;
+}
+
+.buy-btn,
+.main-btn{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:13px;
+    background:linear-gradient(90deg,#00eaff,#6366f1);
+    color:#fff;
+    font-weight:900;
+    transition:.2s;
+}
+
+.buy-btn:hover,
+.main-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 25px rgba(0,234,255,.35);
+}
+
+input,
+select{
+    width:100%;
+    padding:14px;
+    margin-bottom:13px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.12);
+    background:#0f172a;
+    color:white;
+    outline:none;
+}
+
+input:focus,
+select:focus{
+    border-color:#00eaff;
+}
+
+.profile-box{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:25px;
+    align-items:center;
+}
+
+.avatar{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#00eaff,#8b5cf6,#ff00c8);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:50px;
+    box-shadow:0 0 35px rgba(0,234,255,.3);
+}
+
+/* ADMIN */
+
+.admin-login{
+    max-width:450px;
+    margin:30px auto;
+}
+
+.creator{
+    text-align:center;
+    margin-top:35px;
+    padding-top:25px;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+.creator small{
+    display:block;
+    color:#94a3b8;
+    font-family:"Vazirmatn",sans-serif;
+    margin-bottom:10px;
+}
+
+.signature{
+    font-family:"Pacifico",cursive;
+    font-size:32px;
+    color:#00eaff;
+    text-shadow:
+        0 0 10px #00eaff,
+        0 0 25px rgba(0,234,255,.7);
+}
+
+.admin-panel{
+    display:none;
+}
+
+.admin-panel.show{
+    display:block;
+}
+
+.admin-coins{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+    margin-top:20px;
+}
+
+.admin-give{
+    padding:15px;
+    border-radius:15px;
+    background:rgba(0,234,255,.08);
+    border:1px solid rgba(0,234,255,.2);
+}
+
+/* TRADE */
+
+.trade-log{
+    margin-top:20px;
+}
+
+.trade-entry{
+    padding:12px;
+    margin-bottom:8px;
+    background:rgba(255,255,255,.04);
+    border-radius:10px;
+    color:#cbd5e1;
+}
+
+/* NOTIFICATION */
+
+.toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:9999;
+    padding:15px 20px;
+    border-radius:15px;
+    background:#0f172a;
+    border:1px solid #00eaff;
+    box-shadow:0 0 25px rgba(0,234,255,.25);
+    transform:translateY(120px);
+    opacity:0;
+    transition:.3s;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+@media(max-width:700px){
+    .header{
+        flex-direction:column;
+    }
+
+    .nav{
+        justify-content:center;
+    }
+
+    .cursor{
+        width:220px;
+        height:220px;
+        font-size:110px;
+    }
+
+    .game-area{
+        min-height:500px;
+    }
+
+    .profile-box{
+        grid-template-columns:1fr;
+        text-align:center;
+    }
+
+    .avatar{
+        margin:auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo">CURSOR COINS</div>
+
+    <div class="nav">
+        <button onclick="showPage('home')">HOME</button>
+        <button onclick="showPage('game')">GAME</button>
+        <button onclick="showPage('shop')">SHOP</button>
+        <button onclick="showPage('upgrade')">UPGRADE</button>
+        <button onclick="showPage('profile')">PROFILE</button>
+        <button onclick="showPage('trade')">TRADE</button>
+        <button onclick="showPage('admin')">ADMIN</button>
+    </div>
+</header>
+
+<div class="container">
+
+<!-- HOME -->
+
+<section id="home" class="page active">
+
+    <div class="hero">
+        <h1>CURSOR COINS</h1>
+        <p>Click the giant cursor and become the richest player.</p>
+    </div>
+
+    <div class="coin-grid">
+
+        <div class="coin-card">
+            <div class="coin-icon">🔵</div>
+            <div class="coin-name">BLUE COIN</div>
+            <div class="coin-value" id="blueDisplay">0</div>
+        </div>
+
+        <div class="coin-card">
+            <div class="coin-icon">🔴</div>
+            <div class="coin-name">RED COIN</div>
+            <div class="coin-value" id="redDisplay">0</div>
+        </div>
+
+        <div class="coin-card">
+            <div class="coin-icon">🟡</div>
+            <div class="coin-name">YELLOW COIN</div>
+            <div class="coin-value" id="yellowDisplay">0</div>
+        </div>
+
+        <div class="coin-card">
+            <div class="coin-icon">🟣</div>
+            <div class="coin-name">VOID COIN</div>
+            <div class="coin-value" id="voidDisplay">0</div>
+        </div>
+
+        <div class="coin-card">
+            <div class="coin-icon">🖱️</div>
+            <div class="coin-name">CURSOR COIN</div>
+            <div class="coin-value" id="cursorDisplay">0</div>
+        </div>
+
+        <div class="coin-card">
+            <div class="coin-icon">👑</div>
+            <div class="coin-name">GOD COIN</div>
+            <div class="coin-value" id="godDisplay">0</div>
+        </div>
+
+        <div class="coin-card">
+            <div class="coin-icon">➕</div>
+            <div class="coin-name">+++++ COIN</div>
+            <div class="coin-value" id="plus5Display">0</div>
+        </div>
+
+        <div class="coin-card">
+            <div class="coin-icon">🟢</div>
+            <div class="coin-name">MANTIS COIN</div>
+            <div class="coin-value" id="mantisDisplay">0</div>
+        </div>
+
+        <div class="coin-card">
+            <div class="coin-icon">➕</div>
+            <div class="coin-name">PLUS COIN</div>
+            <div class="coin-value" id="plusDisplay">0</div>
+        </div>
+
+        <div class="coin-card">
+            <div class="coin-icon">⚡</div>
+            <div class="coin-name">SPEED COIN</div>
+            <div class="coin-value" id="speedDisplay">0</div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- GAME -->
+
+<section id="game" class="page">
+
+    <div class="game-top">
+
+        <div class="level-box">
+
+            <div class="level-title">
+                <div>
+                    LEVEL
+                    <span class="level-number" id="levelDisplay">1</span>
+                </div>
+
+                <div class="xp-text">
+                    <span id="xpDisplay">0</span> /
+                    <span id="neededXpDisplay">100</span> XP
+                </div>
+            </div>
+
+            <div class="xp-bar">
+                <div class="xp-fill" id="xpFill"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="game-area" id="gameArea">
+
+        <div class="game-info">
+            CLICK THE CURSOR
+        </div>
+
+        <div class="cursor" id="cursorButton" onclick="clickCursor()">
+            🖱️
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SHOP -->
+
+<section id="shop" class="page">
+
+    <div class="panel">
+
+        <h2>🛒 SHOP</h2>
+
+        <div class="shop-grid">
+
+            <div class="item">
+                <h3>⚡ DOUBLE TAP</h3>
+                <p>Every click gives you 2x Blue Coins.</p>
+                <button class="buy-btn" onclick="buyDoubleTap()">
+                    BUY — 4 🔴
+                </button>
+            </div>
+
+            <div class="item">
+                <h3>🤖 AUTO CLICK</h3>
+                <p>Automatically clicks every second.</p>
+                <button class="buy-btn" onclick="buyAutoClick()">
+                    BUY — 20 🔴
+                </button>
+            </div>
+
+            <div class="item">
+                <h3>💥 POWER</h3>
+                <p>Increase the amount of XP gained per click.</p>
+                <button class="buy-btn" onclick="buyPower()">
+                    BUY — 1 🟣
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- UPGRADE -->
+
+<section id="upgrade" class="page">
+
+    <div class="panel">
+
+        <h2>🚀 UPGRADES</h2>
+
+        <div class="upgrade-grid">
+
+            <div class="item">
+                <h3>🖱️ CLICK POWER</h3>
+                <p>Current: <b id="powerDisplay">1</b></p>
+                <button class="buy-btn" onclick="upgradePower()">
+                    UPGRADE
+                </button>
+            </div>
+
+            <div class="item">
+                <h3>🍀 LUCK</h3>
+                <p>Current: <b id="luckDisplay">1</b></p>
+                <button class="buy-btn" onclick="upgradeLuck()">
+                    UPGRADE
+                </button>
+            </div>
+
+            <div class="item">
+                <h3>🔥 MULTIPLIER</h3>
+                <p>Current: <b id="multiplierDisplay">1x</b></p>
+                <button class="buy-btn" onclick="upgradeMultiplier()">
+                    UPGRADE
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section id="profile" class="page">
+
+    <div class="panel">
+
+        <h2>👤 PROFILE</h2>
+
+        <div class="profile-box">
+
+            <div class="avatar" id="avatar">
+                😎
+            </div>
+
+            <div>
+
+                <input
+                    id="profileName"
+                    placeholder="Enter your name"
+                >
+
+                <input
+                    id="profileAvatar"
+                    placeholder="Avatar emoji e.g. 😎"
+                    maxlength="4"
+                >
+
+                <button class="main-btn" onclick="saveProfile()">
+                    SAVE PROFILE
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- TRADE -->
+
+<section id="trade" class="page">
+
+    <div class="panel">
+
+        <h2>🔄 TRADE</h2>
+
+        <input
+            id="tradePlayer"
+            placeholder="Player name"
+        >
+
+        <select id="tradeCoin">
+
+            <option value="blue">🔵 Blue Coin</option>
+            <option value="red">🔴 Red Coin</option>
+            <option value="yellow">🟡 Yellow Coin</option>
+            <option value="void">🟣 Void Coin</option>
+            <option value="cursor">🖱️ Cursor Coin</option>
+            <option value="god">👑 God Coin</option>
+            <option value="plus5">➕ +++++ Coin</option>
+            <option value="mantis">🟢 Mantis Coin</option>
+            <option value="plus">➕ Plus Coin</option>
+            <option value="speed">⚡ Speed Coin</option>
+
+        </select>
+
+        <input
+            id="tradeAmount"
+            type="number"
+            min="1"
+            placeholder="Amount"
+        >
+
+        <button class="main-btn" onclick="sendTrade()">
+            SEND TRADE
+        </button>
+
+        <div class="trade-log" id="tradeLog"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ADMIN -->
+
+<section id="admin" class="page">
+
+    <div class="panel admin-login" id="adminLogin">
+
+        <h2>🔐 ADMIN LOGIN</h2>
+
+        <input
+            id="adminPassword"
+            type="password"
+            placeholder="Enter admin password"
+        >
+
+        <button class="main-btn" onclick="loginAdmin()">
+            LOGIN
+        </button>
+
+        <div class="creator">
+
+            <small>ساخته شده توسط مبین</small>
+
+            <div class="signature">
+                Mobin
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="panel admin-panel" id="adminPanel">
+
+        <h2>👑 ADMIN PANEL</h2>
+
+        <p style="color:#94a3b8;">
+            Give yourself 1000 of every coin.
+        </p>
+
+        <button
+            class="main-btn"
+            style="margin-top:20px;"
+            onclick="giveAllCoins()"
+        >
+            +1000 ALL COINS
+        </button>
+
+        <div class="admin-coins">
+
+            <div class="admin-give">
+                🔵 BLUE<br>
+                <b id="adminBlue">0</b>
+            </div>
+
+            <div class="admin-give">
+                🔴 RED<br>
+                <b id="adminRed">0</b>
+            </div>
+
+            <div class="admin-give">
+                🟡 YELLOW<br>
+                <b id="adminYellow">0</b>
+            </div>
+
+            <div class="admin-give">
+                🟣 VOID<br>
+                <b id="adminVoid">0</b>
+            </div>
+
+            <div class="admin-give">
+                🖱️ CURSOR<br>
+                <b id="adminCursor">0</b>
+            </div>
+
+            <div class="admin-give">
+                👑 GOD<br>
+                <b id="adminGod">0</b>
+            </div>
+
+            <div class="admin-give">
+                ➕ +++++<br>
+                <b id="adminPlus5">0</b>
+            </div>
+
+            <div class="admin-give">
+                🟢 MANTIS<br>
+                <b id="adminMantis">0</b>
+            </div>
+
+            <div class="admin-give">
+                ➕ PLUS<br>
+                <b id="adminPlus">0</b>
+            </div>
+
+            <div class="admin-give">
+                ⚡ SPEED<br>
+                <b id="adminSpeed">0</b>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+const defaultData = {
+
+    coins:{
+        blue:0,
+        red:0,
+        yellow:0,
+        void:0,
+        cursor:0,
+        god:0,
+        plus5:0,
+        mantis:0,
+        plus:0,
+        speed:0
+    },
+
+    level:1,
+    xp:0,
+
+    power:1,
+    luck:1,
+    multiplier:1,
+
+    doubleTap:false,
+    autoClick:false,
+
+    profile:{
+        name:"",
+        avatar:"😎"
+    },
+
+    trades:[]
+};
+
+
+let data = JSON.parse(
+    localStorage.getItem("CURSOR_COINS_DATA")
+) || defaultData;
+
+
+/* جلوگیری از خراب شدن دیتاهای قدیمی */
+
+data.coins = {
+    ...defaultData.coins,
+    ...(data.coins || {})
+};
+
+data.profile = {
+    ...defaultData.profile,
+    ...(data.profile || {})
+};
+
+data.trades = data.trades || [];
+
+data.level = data.level || 1;
+data.xp = data.xp || 0;
+data.power = data.power || 1;
+data.luck = data.luck || 1;
+data.multiplier = data.multiplier || 1;
+
+
+/* =========================
+   SAVE
+========================= */
+
+function save(){
+
+    localStorage.setItem(
+        "CURSOR_COINS_DATA",
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =========================
+   PAGE SYSTEM
+========================= */
+
+function showPage(page){
+
+    document.querySelectorAll(".page")
+        .forEach(p => p.classList.remove("active"));
+
+    const selected = document.getElementById(page);
+
+    if(selected){
+        selected.classList.add("active");
+    }
+
+    updateUI();
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+function toast(message){
+
+    const box = document.getElementById("toast");
+
+    box.textContent = message;
+
+    box.classList.add("show");
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer = setTimeout(() => {
+        box.classList.remove("show");
+    },2200);
+
+}
+
+
+/* =========================
+   XP SYSTEM
+========================= */
+
+function neededXP(){
+
+    return Math.floor(
+        100 * Math.pow(1.25,data.level - 1)
+    );
+}
+
+
+function addXP(amount){
+
+    data.xp += amount;
+
+    while(data.xp >= neededXP()){
+
+        data.xp -= neededXP();
+
+        data.level++;
+
+        toast("🎉 LEVEL UP! LEVEL " + data.level);
+
+    }
+
+}
+
+
+/* =========================
+   CLICK
+========================= */
+
+function clickCursor(){
+
+    let amount = data.power * data.multiplier;
+
+    if(data.doubleTap){
+        amount *= 2;
+    }
+
+    amount = Math.max(1,Math.floor(amount));
+
+    data.coins.blue += amount;
+
+
+    /* XP */
+
+    let xpGain =
+        Math.max(
+            1,
+            Math.floor(data.power * data.multiplier)
+        );
+
+    addXP(xpGain);
+
+
+    /* RANDOM LUCK */
+
+    if(Math.random() < 0.02 * data.luck){
+
+        data.coins.blue += 10;
+
+        createFloat(
+            "+10 🔵 LUCK!",
+            "#00eaff"
+        );
+
+    }
+
+
+    convertCoins();
+
+    createFloat(
+        "+" + amount + " 🔵",
+        "#38bdf8"
+    );
+
+    save();
+
+    updateUI();
+
+}
+
+
+/* =========================
+   FLOATING TEXT
+========================= */
+
+function createFloat(text,color){
+
+    const game = document.getElementById("gameArea");
+
+    const el = document.createElement("div");
+
+    el.className = "float-text";
+
+    el.textContent = text;
+
+    el.style.color = color;
+
+    const centerX =
+        game.clientWidth / 2;
+
+    const centerY =
+        game.clientHeight / 2;
+
+    el.style.left =
+        (centerX + (Math.random()*120 - 60)) + "px";
+
+    el.style.top =
+        (centerY + (Math.random()*100 - 50)) + "px";
+
+    game.appendChild(el);
+
+    setTimeout(() => {
+        el.remove();
+    },1000);
+
+}
+
+
+/* =========================
+   COIN CONVERSION
+========================= */
+
+function convertCoins(){
+
+    while(data.coins.blue >= 10){
+
+        data.coins.blue -= 10;
+        data.coins.red++;
+
+    }
+
+    while(data.coins.red >= 10){
+
+        data.coins.red -= 10;
+        data.coins.yellow++;
+
+    }
+
+    while(data.coins.yellow >= 10){
+
+        data.coins.yellow -= 10;
+        data.coins.void++;
+
+    }
+
+    while(data.coins.void >= 10){
+
+        data.coins.void -= 10;
+        data.coins.cursor++;
+
+    }
+
+    while(data.coins.cursor >= 10){
+
+        data.coins.cursor -= 10;
+        data.coins.god++;
+
+    }
+
+    while(data.coins.god >= 10){
+
+        data.coins.god -= 10;
+        data.coins.plus5++;
+
+    }
+
+}
+
+
+/* =========================
+   SHOP
+========================= */
+
+function buyDoubleTap(){
+
+    if(data.doubleTap){
+
+        toast("❌ Already purchased!");
+
+        return;
+    }
+
+    if(data.coins.red < 4){
+
+        toast("❌ You need 4 🔴 Red Coins");
+
+        return;
+    }
+
+    data.coins.red -= 4;
+
+    data.doubleTap = true;
+
+    save();
+
+    updateUI();
+
+    toast("⚡ DOUBLE TAP PURCHASED!");
+
+}
+
+
+function buyAutoClick(){
+
+    if(data.autoClick){
+
+        toast("❌ Already purchased!");
+
+        return;
+    }
+
+    if(data.coins.red < 20){
+
+        toast("❌ You need 20 🔴 Red Coins");
+
+        return;
+    }
+
+    data.coins.red -= 20;
+
+    data.autoClick = true;
+
+    save();
+
+    updateUI();
+
+    toast("🤖 AUTO CLICK ACTIVATED!");
+
+    startAutoClick();
+
+}
+
+
+function buyPower(){
+
+    if(data.coins.void < 1){
+
+        toast("❌ You need 1 🟣 Void Coin");
+
+        return;
+    }
+
+    data.coins.void--;
+
+    data.power++;
+
+    save();
+
+    updateUI();
+
+    toast("💥 POWER +1!");
+
+}
+
+
+/* =========================
+   UPGRADES
+========================= */
+
+function upgradePower(){
+
+    const cost = data.power * 2;
+
+    if(data.coins.red < cost){
+
+        toast("Need " + cost + " 🔴 Red Coins");
+
+        return;
+    }
+
+    data.coins.red -= cost;
+
+    data.power++;
+
+    save();
+
+    updateUI();
+
+}
+
+
+function upgradeLuck(){
+
+    const cost = data.luck * 3;
+
+    if(data.coins.yellow < cost){
+
+        toast("Need " + cost + " 🟡 Yellow Coins");
+
+        return;
+    }
+
+    data.coins.yellow -= cost;
+
+    data.luck++;
+
+    save();
+
+    updateUI();
+
+}
+
+
+function upgradeMultiplier(){
+
+    const cost = data.multiplier * 2;
+
+    if(data.coins.cursor < cost){
+
+        toast("Need " + cost + " 🖱️ Cursor Coins");
+
+        return;
+    }
+
+    data.coins.cursor -= cost;
+
+    data.multiplier++;
+
+    save();
+
+    updateUI();
+
+}
+
+
+/* =========================
+   AUTO CLICK
+========================= */
+
+function startAutoClick(){
+
+    if(window.autoClickInterval){
+        return;
+    }
+
+    window.autoClickInterval =
+        setInterval(() => {
+
+            if(data.autoClick){
+
+                clickCursor();
+
+            }
+
+        },1000);
+
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+function saveProfile(){
+
+    const name =
+        document.getElementById("profileName").value.trim();
+
+    const avatar =
+        document.getElementById("profileAvatar").value.trim();
+
+    if(name){
+        data.profile.name = name;
+    }
+
+    if(avatar){
+        data.profile.avatar = avatar;
+    }
+
+    save();
+
+    updateUI();
+
+    toast("✅ PROFILE SAVED!");
+
+}
+
+
+/* =========================
+   TRADE
+========================= */
+
+function sendTrade(){
+
+    const player =
+        document.getElementById("tradePlayer").value.trim();
+
+    const coin =
+        document.getElementById("tradeCoin").value;
+
+    const amount =
+        parseInt(
+            document.getElementById("tradeAmount").value
+        );
+
+    if(!player){
+
+        toast("❌ Enter player name");
+
+        return;
+    }
+
+    if(!amount || amount <= 0){
+
+        toast("❌ Enter valid amount");
+
+        return;
+    }
+
+    if(data.coins[coin] < amount){
+
+        toast("❌ Not enough coins");
+
+        return;
+    }
+
+    data.coins[coin] -= amount;
+
+    data.trades.unshift({
+
+        player,
+        coin,
+        amount,
+        time:new Date().toLocaleString()
+
+    });
+
+    save();
+
+    updateUI();
+
+    toast("✅ Trade sent!");
+
+}
+
+
+/* =========================
+   ADMIN
+========================= */
+
+function loginAdmin(){
+
+    const password =
+        document.getElementById("adminPassword").value;
+
+    if(password !== "123"){
+
+        toast("❌ Wrong password");
+
+        return;
+    }
+
+    document
+        .getElementById("adminLogin")
+        .style.display = "none";
+
+    document
+        .getElementById("adminPanel")
+        .classList.add("show");
+
+    updateUI();
+
+    toast("👑 ADMIN LOGIN SUCCESS!");
+
+}
+
+
+function giveAllCoins(){
+
+    const keys = [
+        "blue",
+        "red",
+        "yellow",
+        "void",
+        "cursor",
+        "god",
+        "plus5",
+        "mantis",
+        "plus",
+        "speed"
+    ];
+
+    keys.forEach(key => {
+
+        data.coins[key] += 1000;
+
+    });
+
+    save();
+
+    updateUI();
+
+    toast("👑 +1000 ALL COINS!");
+
+}
+
+
+/* =========================
+   UI
+========================= */
+
+function updateUI(){
+
+    const c = data.coins;
+
+
+    /* Coins */
+
+    const displays = {
+
+        blue:"blueDisplay",
+        red:"redDisplay",
+        yellow:"yellowDisplay",
+        void:"voidDisplay",
+        cursor:"cursorDisplay",
+        god:"godDisplay",
+        plus5:"plus5Display",
+        mantis:"mantisDisplay",
+        plus:"plusDisplay",
+        speed:"speedDisplay"
+
+    };
+
+
+    Object.keys(displays).forEach(key => {
+
+        const el =
+            document.getElementById(displays[key]);
+
+        if(el){
+            el.textContent =
+                formatNumber(c[key]);
+        }
+
+    });
+
+
+    /* Level */
+
+    const level =
+        document.getElementById("levelDisplay");
+
+    if(level){
+        level.textContent =
+            data.level;
+    }
+
+
+    const xp =
+        document.getElementById("xpDisplay");
+
+    const needed =
+        document.getElementById("neededXpDisplay");
+
+    const fill =
+        document.getElementById("xpFill");
+
+    const neededValue =
+        neededXP();
+
+    if(xp){
+        xp.textContent =
+            Math.floor(data.xp);
+    }
+
+    if(needed){
+        needed.textContent =
+            Math.floor(neededValue);
+    }
+
+    if(fill){
+
+        fill.style.width =
+            Math.min(
+                100,
+                (data.xp / neededValue) * 100
+            ) + "%";
+
+    }
+
+
+    /* Upgrade */
+
+    const power =
+        document.getElementById("powerDisplay");
+
+    const luck =
+        document.getElementById("luckDisplay");
+
+    const multiplier =
+        document.getElementById("multiplierDisplay");
+
+    if(power){
+        power.textContent = data.power;
+    }
+
+    if(luck){
+        luck.textContent = data.luck;
+    }
+
+    if(multiplier){
+        multiplier.textContent =
+            data.multiplier + "x";
+    }
+
+
+    /* Profile */
+
+    const profileName =
+        document.getElementById("profileName");
+
+    const profileAvatar =
+        document.getElementById("profileAvatar");
+
+    const avatar =
+        document.getElementById("avatar");
+
+    if(profileName){
+        profileName.value =
+            data.profile.name;
+    }
+
+    if(profileAvatar){
+        profileAvatar.value =
+            data.profile.avatar;
+    }
+
+    if(avatar){
+        avatar.textContent =
+            data.profile.avatar || "😎";
+    }
+
+
+    /* Admin */
+
+    const adminIds = {
+
+        blue:"adminBlue",
+        red:"adminRed",
+        yellow:"adminYellow",
+        void:"adminVoid",
+        cursor:"adminCursor",
+        god:"adminGod",
+        plus5:"adminPlus5",
+        mantis:"adminMantis",
+        plus:"adminPlus",
+        speed:"adminSpeed"
+
+    };
+
+
+    Object.keys(adminIds).forEach(key => {
+
+        const el =
+            document.getElementById(adminIds[key]);
+
+        if(el){
+            el.textContent =
+                formatNumber(c[key]);
+        }
+
+    });
+
+
+    /* Trade log */
+
+    const tradeLog =
+        document.getElementById("tradeLog");
+
+    if(tradeLog){
+
+        tradeLog.innerHTML = "";
+
+        data.trades.slice(0,10).forEach(t => {
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                "trade-entry";
+
+            div.textContent =
+                "Sent " +
+                t.amount +
+                " " +
+                t.coin.toUpperCase() +
+                " → " +
+                t.player +
+                " • " +
+                t.time;
+
+            tradeLog.appendChild(div);
+
+        });
+
+    }
+
+}
+
+
+/* =========================
+   NUMBER FORMAT
+========================= */
+
+function formatNumber(num){
+
+    if(num >= 1000000000){
+
+        return (
+            num / 1000000000
+        ).toFixed(2) + "B";
+
+    }
+
+    if(num >= 1000000){
+
+        return (
+            num / 1000000
+        ).toFixed(2) + "M";
+
+    }
+
+    if(num >= 1000){
+
+        return (
+            num / 1000
+        ).toFixed(2) + "K";
+
+    }
+
+    return num;
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+updateUI();
+
+if(data.autoClick){
+
+    startAutoClick();
+
+}
+
+</script>
+
+</body>
+</html>
